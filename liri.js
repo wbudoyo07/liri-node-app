@@ -67,6 +67,10 @@ function getMySpotify(){
 
 function getMovieInfo(){
 
+   if(pickContent === undefined){
+       console.log(`If you haven't watched "Mr. Nobody," then you should: http://www.imdb.com/title/tt0485947/ \nIt's on Netflix!`);
+   }else{
+
    
     omdbRequest(`http://www.omdbapi.com/?t=${pickContent}&y=&plot=short&apikey=trilogy`, function(error, response, body) {
 
@@ -83,7 +87,8 @@ function getMovieInfo(){
     console.log(`Plot of the movie: ${JSON.parse(body).Plot}`);
     console.log(`Actors in the movie: ${JSON.parse(body).Actors}\n`);
 
-    }
-});
+        }
+    });
+   }
 }
 
