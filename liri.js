@@ -1,17 +1,17 @@
 require("dotenv").config();
 
-var keys = require("./keys.js")
-var Twitter = require("twitter");
-var Spotify = require("node-spotify-api");
-var omdbRequest = require("request");
-var fs = require("fs");
+const keys = require("./keys.js")
+const Twitter = require("twitter");
+const Spotify = require("node-spotify-api");
+const omdbRequest = require("request");
+const fs = require("fs");
 
-var spotify = new Spotify(keys.spotify);
-var client = new Twitter(keys.twitter);
-var omdbApiKey = keys.omdb.omdbKey;
+const spotify = new Spotify(keys.spotify);
+const client = new Twitter(keys.twitter);
+const omdbApiKey = keys.omdb.omdbKey;
 
-var userInput = process.argv[2];
-var pickContent = process.argv[3];
+let userInput = process.argv[2];
+let pickContent = process.argv[3];
 
 switch(userInput){
   case "my-tweets":
@@ -39,7 +39,7 @@ switch(userInput){
 function getMyTweets(){
 
     // You can change the user_ID and how many tweet count that you want
-    var params = {screen_name: 'Drakenzer_Drz', count:'20'};
+    let params = {screen_name: 'Drakenzer_Drz', count:'20'};
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
         if (!error && response.statusCode === 200) {    
@@ -103,7 +103,7 @@ function getMovieInfo(){
 
 function doWhatItSays(){
     
-    var dataArr;
+    let dataArr;
 
     if(pickContent === undefined){
         fs.readFile("random.txt", "utf8", function(error, data) {
