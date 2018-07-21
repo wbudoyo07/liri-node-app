@@ -45,7 +45,7 @@ function getMyTweets(){
         if (!error && response.statusCode === 200) {    
 
             // if tweet is successful run this
-            for(var i= 0; i<tweets.length; i++){
+            for(let i= 0; i<tweets.length; i++){
         
             // .text is the user's tweet in Twitter JSON format
             console.log(`\nTweet no ${i} : ${tweets[i].text}`);
