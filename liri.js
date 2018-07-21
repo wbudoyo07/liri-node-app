@@ -4,9 +4,11 @@ var keys = require("./keys.js")
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
 var omdbRequest = require("request");
+var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
+var omdbApiKey = keys.omdb.omdbKey;
 
 var userInput = process.argv[2];
 var pickContent = process.argv[3];
@@ -14,18 +16,22 @@ var pickContent = process.argv[3];
 switch(userInput){
   case "my-tweets":
   getMyTweets();
+  logText(userInput,pickContent);
   break;
 
   case "spotify-this-song":
   getMySpotify(pickContent);
+  logText(userInput,pickContent);
   break;
 
   case "movie-this":
   getMovieInfo();
+  logText(userInput,pickContent);
   break;
 
   case "do-what-it-says":
   doWhatItSays();
+  logText(userInput,pickContent);
   break;
 }
 
@@ -75,20 +81,20 @@ function getMovieInfo(){
    }else{
 
    
-    omdbRequest(`http://www.omdbapi.com/?t=${pickContent}&y=&plot=short&apikey=trilogy`, function(error, response, body) {
+    omdbRequest(`http://www.omdbapi.com/?t=${pickContent}&y=&plot=short&apikey=${omdbApiKey}`, function(error, response, body) {
 
-  // If the request is successful (i.e. if the response status code is 200)
-  if (!error && response.statusCode === 200) {
+        // If the request is successful (i.e. if the response status code is 200)
+        if (!error && response.statusCode === 200) {
 
-    // print out title, year, rating, Rotten tomatoes rating,country,language, plot, and Actors
-    console.log(`\nTitle of the movie: ${JSON.parse(body).Title}`);
-    console.log(`Year the movie came out: ${JSON.parse(body).Year}`);
-    console.log(`IMDB Rating of the movie: ${JSON.parse(body).imdbRating}`);
-    console.log(`Rotten Tomatoes Rating of the movie: ${JSON.parse(body).Ratings[1].Value}`);
-    console.log(`Country where the movie was produced: ${JSON.parse(body).Country}`);
-    console.log(`Language of the movie: ${JSON.parse(body).Language}`);
-    console.log(`Plot of the movie: ${JSON.parse(body).Plot}`);
-    console.log(`Actors in the movie: ${JSON.parse(body).Actors}\n`);
+            // print out title, year, rating, Rotten tomatoes rating,country,language, plot, and Actors
+            console.log(`\nTitle of the movie: ${JSON.parse(body).Title}`);
+            console.log(`Year the movie came out: ${JSON.parse(body).Year}`);
+            console.log(`IMDB Rating of the movie: ${JSON.parse(body).imdbRating}`);
+            console.log(`Rotten Tomatoes Rating of the movie: ${JSON.parse(body).Ratings[1].Value}`);
+            console.log(`Country where the movie was produced: ${JSON.parse(body).Country}`);
+            console.log(`Language of the movie: ${JSON.parse(body).Language}`);
+            console.log(`Plot of the movie: ${JSON.parse(body).Plot}`);
+            console.log(`Actors in the movie: ${JSON.parse(body).Actors}\n`);
 
         }
     });
@@ -96,7 +102,7 @@ function getMovieInfo(){
 }
 
 function doWhatItSays(){
-    var fs = require("fs");
+    
     var dataArr;
 
     if(pickContent === undefined){
@@ -107,7 +113,7 @@ function doWhatItSays(){
               return console.log(error);
             }else{
            // We will then print the contents of data
-           console.log(data);
+           console.log(`"${data}" inside random.txt`);
           
           //  // Then split it by commas (to make it more readable)
            dataArr = data.split(",");
@@ -119,5 +125,18 @@ function doWhatItSays(){
            });
        
     }
+};
+
+function logText(userInput,pickContent){
+
+    fs.appendFile("log.txt",`\n${userInput}  ${pickContent}`, function(err){
+
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log("log.txt is update")
+        }
+    })
 }
 
