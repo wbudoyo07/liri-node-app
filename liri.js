@@ -17,13 +17,16 @@ switch(userInput){
   break;
 
   case "spotify-this-song":
-  getMySpotify();
+  getMySpotify(pickContent);
   break;
 
   case "movie-this":
   getMovieInfo();
   break;
 
+  case "do-what-it-says":
+  doWhatItSays();
+  break;
 }
 
 // function to get recent 20 tweets
@@ -48,9 +51,9 @@ function getMyTweets(){
         });
     };
 
-function getMySpotify(){
+function getMySpotify(querySong){
 
-    spotify.search({ type: 'track', query: pickContent, limit:1 }, function(err, data) {
+    spotify.search({ type: 'track', query: querySong, limit:1 }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
         }else{
@@ -90,5 +93,31 @@ function getMovieInfo(){
         }
     });
    }
+}
+
+function doWhatItSays(){
+    var fs = require("fs");
+    var dataArr;
+
+    if(pickContent === undefined){
+        fs.readFile("random.txt", "utf8", function(error, data) {
+
+            // If the code experiences any errors it will log the error to the console.
+            if (error) {
+              return console.log(error);
+            }else{
+           // We will then print the contents of data
+           console.log(data);
+          
+          //  // Then split it by commas (to make it more readable)
+           dataArr = data.split(",");
+          
+          
+           getMySpotify(dataArr);
+            }
+          
+           });
+       
+    }
 }
 
