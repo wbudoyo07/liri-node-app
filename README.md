@@ -39,7 +39,7 @@ omdbKey: <omdb api key>
 
 ```
 node liri.js my-tweets
-node liri.js spotify-this-song (Pick you song)
+node liri.js spotify-this-song (Pick your song)
 node liri.js movie-this
 node liri.js movie-this (pick your movie)
 node liri.js do-what-it-says
@@ -60,7 +60,7 @@ Available commands:
 **movie-this**
 * This will ouput Mr. Nobody movie links.
 
-**movie-this (Pick you song)**
+**movie-this (Pick your movie)**
 * This will ouput the movie information from omdb :
  * Title of the movie.
    * Year the movie came out.
